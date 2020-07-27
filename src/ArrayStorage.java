@@ -11,10 +11,10 @@ public class ArrayStorage {
      * Clear storage
      */
     void clear() {
-        for (Resume r : storage
-        ) {
-            r = null;
+        for (int i = 0; i < lastItem; i++) {
+            storage[i] = new Resume();
         }
+        lastItem = 0;
     }
 
     /**
@@ -41,13 +41,13 @@ public class ArrayStorage {
      * Delete uuid from storage
      */
     void delete(String uuid) {
-        System.out.println(lastItem);
         for (int i = 0; i < lastItem; i++) {
             if (storage[i].uuid.equals(uuid)) {
-                for (int j = i; j < lastItem - 1; j++) {
-                    storage[j] = storage[j + 1];
-                    storage[j + 1] = null;
-                }
+                storage[i] = storage[lastItem-1];
+//                storage[lastItem] = null;
+//                for (int j = i; j < lastItem - 1; j++) {
+//                    storage[j] = storage[j + 1];
+//                }
                 lastItem--;
                 break;
             }
@@ -58,7 +58,7 @@ public class ArrayStorage {
      * @return array, contains only Resumes in storage (without null)
      */
     Resume[] getAll() {
-        return Arrays.copyOfRange(storage, 0, lastItem);
+        return Arrays.copyOf(storage, lastItem);
     }
 
     /**
