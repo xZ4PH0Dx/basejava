@@ -9,8 +9,9 @@ import java.util.Arrays;
  * Array based storage for Resumes
  */
 public class ArrayStorage {
-    Resume[] storage = new Resume[10000];
+    int MAX_STORAGE_SIZE = 10000;
     int lastItem = 0;
+    Resume[] storage = new Resume[MAX_STORAGE_SIZE];
 
     /**
      * Clear storage
@@ -24,8 +25,12 @@ public class ArrayStorage {
      * Saves resume to storage
      */
     public void save(Resume r) {
-        storage[lastItem] = r;
-        lastItem++;
+        if (lastItem < MAX_STORAGE_SIZE) {
+            storage[lastItem] = r;
+            lastItem++;
+        } else {
+            System.out.println("Resume storage has max items");
+        }
     }
 
     /**
@@ -37,6 +42,7 @@ public class ArrayStorage {
                 return storage[i];
             }
         }
+        printError("get");
         return null;
     }
 
@@ -52,10 +58,19 @@ public class ArrayStorage {
                 break;
             }
         }
+        printError("delete");
     }
 
-    public void update(Resume resume){
-
+    public void update(Resume resume) {
+        for (int i = 0; i < lastItem; i++) {
+            if (storage[i].getUuid().equals(resume.getUuid())) {
+                storage[i] = resume;
+                lastItem--;
+                break;
+            } else {
+                printError("update");
+            }
+        }
     }
 
     /**
@@ -70,5 +85,9 @@ public class ArrayStorage {
      */
     public int size() {
         return lastItem;
+    }
+
+    public void printError(String string) {
+        System.out.printf("Couldn't ", string, " Resume. No such Resume");
     }
 }
