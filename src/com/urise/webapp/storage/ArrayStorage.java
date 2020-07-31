@@ -25,14 +25,14 @@ public class ArrayStorage {
     /**
      * Saves resume to storage
      */
-    public void save(Resume r) {
+    public void save(Resume resume) {
         if (lastItem < MAX_STORAGE_SIZE) {
-            int index = getResumeIndex(r.getUuid());
+            int index = getResumeIndex(resume.getUuid());
             if (index == -1) {
-                storage[lastItem] = r;
+                storage[lastItem] = resume;
                 lastItem++;
             } else {
-                System.out.println("There's a Resume with uuid:" + r.getUuid() + " in storage");
+                System.out.println("There's a Resume with uuid:" + resume.getUuid() + " in storage");
             }
         } else {
             System.out.println("Resume storage has max items");
@@ -46,10 +46,9 @@ public class ArrayStorage {
         int index = getResumeIndex(uuid);
         if (index != -1) {
             return storage[index];
-        } else {
-            printError("get");
-            return null;
         }
+        printError("get");
+        return null;
     }
 
     /**
@@ -59,9 +58,8 @@ public class ArrayStorage {
         int index = getResumeIndex(uuid);
         if (index != -1) {
             storage[index] = storage[lastItem - 1];
-            storage[size() - 1] = null;
+            storage[lastItem - 1] = null;
             lastItem--;
-            return;
         } else {
             printError("delete");
         }
@@ -74,7 +72,6 @@ public class ArrayStorage {
         int index = getResumeIndex(resume.getUuid());
         if (index != -1) {
             storage[index] = resume;
-            return;
         } else {
             printError("update");
         }
