@@ -1,5 +1,5 @@
-import com.urise.webapp.model.Resume;
-import com.urise.webapp.storage.ArrayStorage;
+import ru.javawebinar.basejava.model.Resume;
+import ru.javawebinar.basejava.storage.ArrayStorage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -22,7 +22,7 @@ public class MainArray {
                 System.out.println("Неверная команда.");
                 continue;
             }
-            
+
             String uuid = null;
             if (params.length == 2) {
                 uuid = params[1].intern();
@@ -36,7 +36,7 @@ public class MainArray {
                     break;
                 case "save":
                     r = new Resume();
-                    r.getUuid().equals(uuid);
+                    r.setUuid(uuid);
                     ARRAY_STORAGE.save(r);
                     printAll();
                     break;
