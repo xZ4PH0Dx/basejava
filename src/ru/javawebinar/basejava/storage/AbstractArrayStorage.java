@@ -19,23 +19,25 @@ public abstract class AbstractArrayStorage implements Storage {
 
     @Override
     public void update(Resume resume) {
-        int index = getIndex(resume.getUuid());
+        String uuid = resume.getUuid();
+        int index = getIndex(uuid);
         if (index != -1) {
             storage[index] = resume;
         } else {
-            System.out.println("Couldn't update Resume. No such Resume");
+            System.out.printf("Couldn't update Resume with uuid: %s No such Resume\n", uuid);
         }
     }
 
     @Override
     public void save(Resume resume) {
-        if (size < AbstractArrayStorage.STORAGE_LIMIT) {
+        String uuid = resume.getUuid();
+        if (size < STORAGE_LIMIT) {
             int index = getIndex(resume.getUuid());
             if (index < 0) {
                 insertElement(resume, index);
                 size++;
             } else {
-                System.out.println("There's a Resume with uuid:" + resume.getUuid() + " in storage");
+                System.out.printf("There's exist a Resume with uuid: %s in storage\n", uuid);
             }
         } else {
             System.out.println("Resume storage has max items");
@@ -46,11 +48,11 @@ public abstract class AbstractArrayStorage implements Storage {
     public void delete(String uuid) {
         int index = getIndex(uuid);
         if (index != -1) {
-            insertDeletedElement(index);
+            fillDeletedElement(index);
             storage[size - 1] = null;
             size--;
         } else {
-            System.out.println("Couldn't delete Resume. No such Resume");
+            System.out.printf("Couldn't delete Resume with uuid: %s. No such Resume\n", uuid);
         }
     }
 
@@ -68,7 +70,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public Resume get(String uuid) {
         int index = getIndex(uuid);
         if (index == -1) {
-            System.out.println("Resume " + uuid + " not exist");
+            System.out.printf("Resume uuid: %s not exist\n", uuid);
             return null;
         }
         return storage[index];
@@ -78,5 +80,5 @@ public abstract class AbstractArrayStorage implements Storage {
 
     protected abstract void insertElement(Resume resume, int index);
 
-    protected abstract void insertDeletedElement(int index);
+    protected abstract void fillDeletedElement(int index);
 }
