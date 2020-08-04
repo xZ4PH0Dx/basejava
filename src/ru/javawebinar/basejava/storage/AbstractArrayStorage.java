@@ -32,7 +32,7 @@ public abstract class AbstractArrayStorage implements Storage {
     public void save(Resume resume) {
         String uuid = resume.getUuid();
         if (size < STORAGE_LIMIT) {
-            int index = getIndex(resume.getUuid());
+            int index = getIndex(uuid);
             if (index < 0) {
                 insertElement(resume, index);
                 size++;
