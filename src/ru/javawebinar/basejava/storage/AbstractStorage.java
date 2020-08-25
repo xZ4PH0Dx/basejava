@@ -5,53 +5,58 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    protected abstract void doUpdate(Resume resume, int index);
+    protected abstract void doUpdate(Resume resume, Object key);
 
-    protected abstract void doSave(Resume resume, int index);
+    protected abstract void doSave(Resume resume, Object key);
 
-    protected abstract void doDelete(int index);
+    protected abstract void doDelete(Object key);
 
-    protected abstract Resume doGet(int index);
+    protected abstract Resume doGet(Object key);
 
-    protected abstract int getIndex(String uuid);
+    protected abstract Object getKey(String uuid);
+
+    protected abstract boolean isExist(Object key);
 
     @Override
     public void update(Resume resume) {
         String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        doUpdate(resume, index);
+        Object key = getKeyIfExist(uuid);
+        doUpdate(resume, key);
     }
 
     @Override
     public void save(Resume resume) {
         String uuid = resume.getUuid();
-        int index = getIndex(uuid);
-        if (index < 0) {
-            doSave(resume, index);
-        } else {
-            throw new ExistStorageException(uuid);
-        }
+        Object key = getKeyIfNotExist(uuid);
+        doSave(resume, key);
     }
 
     @Override
     public Resume get(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
-        }
-        return doGet(index);
+        Object key = getKeyIfExist(uuid);
+        return doGet(key);
     }
 
     @Override
     public void delete(String uuid) {
-        int index = getIndex(uuid);
-        if (index < 0) {
-            throw new NotExistStorageException(uuid);
+        Object key = getKeyIfExist(uuid);
+        doDelete(key);
+    }
+
+    private Object getKeyIfNotExist(String uuid) {
+        Object key = getKey(uuid);
+        if (!isExist(key)) {
+            return key;
         }
-        doDelete(index);
+        throw new ExistStorageException(uuid);
+    }
+
+    private Object getKeyIfExist(String uuid) {
+        Object key = getKey(uuid);
+        if (isExist(key)) {
+            return key;
+        }
+        throw new NotExistStorageException(uuid);
     }
 
 }
