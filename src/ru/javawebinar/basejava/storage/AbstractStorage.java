@@ -5,11 +5,9 @@ import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
 public abstract class AbstractStorage implements Storage {
-    public abstract void clear();
-
     protected abstract void doUpdate(Resume resume, int index);
 
-    protected abstract void doSave(Resume resume, int index, String uuid);
+    protected abstract void doSave(Resume resume, int index);
 
     protected abstract void doDelete(int index);
 
@@ -32,7 +30,7 @@ public abstract class AbstractStorage implements Storage {
         String uuid = resume.getUuid();
         int index = getIndex(uuid);
         if (index < 0) {
-            doSave(resume, index, uuid);
+            doSave(resume, index);
         } else {
             throw new ExistStorageException(uuid);
         }

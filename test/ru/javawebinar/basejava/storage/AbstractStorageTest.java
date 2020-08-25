@@ -17,14 +17,14 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_3;
     private static final Resume RESUME_4;
 
+    Storage storage;
+
     static {
         RESUME_1 = new Resume(UUID_1);
         RESUME_2 = new Resume(UUID_2);
         RESUME_3 = new Resume(UUID_3);
         RESUME_4 = new Resume(UUID_4);
     }
-
-    Storage storage;
 
     public AbstractStorageTest(Storage storage) {
         this.storage = storage;
