@@ -3,9 +3,10 @@ package ru.javawebinar.basejava.storage;
 import ru.javawebinar.basejava.model.Resume;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ListStorage extends AbstractStorage {
-    private ArrayList<Resume> storage = new ArrayList<>();
+    private List<Resume> storage = new ArrayList<>();
 
     @Override
     protected boolean isExist(Object key) {
