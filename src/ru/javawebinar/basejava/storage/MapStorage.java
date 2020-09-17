@@ -2,11 +2,13 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapStorage extends AbstractStorage {
-    private Map<String, Resume> storage = new LinkedHashMap<>();
+    private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
     protected boolean isExist(Object key) {
@@ -19,8 +21,8 @@ public class MapStorage extends AbstractStorage {
     }
 
     @Override
-    public Resume[] getAll() {
-        return storage.values().toArray(new Resume[0]);
+    public List<Resume> getAllSorted() {
+        return new ArrayList<Resume>(storage.values());
     }
 
     @Override
@@ -40,12 +42,12 @@ public class MapStorage extends AbstractStorage {
 
     @Override
     protected void doDelete(Object key) {
-        storage.remove((String) key);
+        storage.remove(key);
     }
 
     @Override
     protected Resume doGet(Object key) {
-        return storage.get((String) key);
+        return storage.get(key);
     }
 
     @Override
