@@ -10,6 +10,10 @@ import ru.javawebinar.basejava.model.Resume;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
+    private static final String FULL_NAME_1 = "John";
+    private static final String FULL_NAME_2 = "Mary";
+    private static final String FULL_NAME_3 = "Ann";
+    private static final String FULL_NAME_4 = "Goblin";
     private static final String UUID_1 = "uuid1";
     private static final String UUID_2 = "uuid2";
     private static final String UUID_3 = "uuid3";
@@ -22,10 +26,10 @@ public abstract class AbstractStorageTest {
     Storage storage;
 
     static {
-        RESUME_1 = new Resume(UUID_1);
-        RESUME_2 = new Resume(UUID_2);
-        RESUME_3 = new Resume(UUID_3);
-        RESUME_4 = new Resume(UUID_4);
+        RESUME_1 = new Resume(UUID_1, FULL_NAME_1);
+        RESUME_2 = new Resume(UUID_2, FULL_NAME_2);
+        RESUME_3 = new Resume(UUID_3, FULL_NAME_3);
+        RESUME_4 = new Resume(UUID_4, FULL_NAME_4);
     }
 
     public AbstractStorageTest(Storage storage) {
@@ -53,7 +57,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void update() throws Exception {
-        Resume resume = new Resume(UUID_1);
+        Resume resume = new Resume(UUID_1, FULL_NAME_1);
         storage.update(resume);
         Assert.assertEquals(RESUME_1, storage.get(UUID_1));
     }
@@ -74,7 +78,7 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void save() throws Exception {
-        storage.save(new Resume(UUID_4));
+        storage.save(new Resume(UUID_4, FULL_NAME_4));
         Assert.assertEquals(4, storage.size());
         Assert.assertEquals(RESUME_4, storage.get(UUID_4));
     }
