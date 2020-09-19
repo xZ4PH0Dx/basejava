@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MapResumeStorage extends AbstractStorage {
-    private final Map<Resume, String> storage = new LinkedHashMap<>();
+    private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
     protected boolean isExist(Object key) {
@@ -17,17 +17,12 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> getResumeList() {
-        return new ArrayList<Resume>(storage.keySet());
+        return new ArrayList<>(storage.values());
     }
 
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        return new ArrayList<Resume>(storage.keySet());
     }
 
     @Override
@@ -37,17 +32,18 @@ public class MapResumeStorage extends AbstractStorage {
 
     @Override
     protected void doUpdate(Resume resume, Object key) {
-        storage.put(resume, (String) key);
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void doSave(Resume resume, Object key) {
-        storage.put(resume, resume.getUuid());
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
     protected void doDelete(Object key) {
-        storage.remove(key);
+        Resume resume = (Resume) key;
+        storage.remove(resume.getUuid());
     }
 
     @Override
@@ -56,7 +52,7 @@ public class MapResumeStorage extends AbstractStorage {
     }
 
     @Override
-    protected Object getKey(String uuid) {
-        return uuid;
+    protected Resume getKey(String uuid) {
+        return storage.get(uuid);
     }
 }

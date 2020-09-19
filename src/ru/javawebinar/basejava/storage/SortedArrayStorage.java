@@ -4,7 +4,6 @@ import ru.javawebinar.basejava.model.Resume;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 public class SortedArrayStorage extends AbstractArrayStorage {
     private static final Comparator<Resume> RESUME_COMPARATOR = Comparator.comparing(Resume::getUuid);
@@ -13,11 +12,6 @@ public class SortedArrayStorage extends AbstractArrayStorage {
     protected Object getKey(String uuid) {
         Resume resume = new Resume(uuid, "");
         return Arrays.binarySearch(storage, 0, size, resume, RESUME_COMPARATOR);
-    }
-
-    @Override
-    protected List<Resume> getResumeList() {
-        return Arrays.asList(storage.clone());
     }
 
     @Override

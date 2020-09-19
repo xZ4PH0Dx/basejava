@@ -19,6 +19,11 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         return (int) key >= 0;
     }
 
+    @Override
+    public List<Resume> getResumeList() {
+        return Arrays.asList(storage);
+    }
+
     public int size() {
         return size;
     }

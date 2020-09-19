@@ -17,17 +17,12 @@ public class MapUuidStorage extends AbstractStorage {
 
     @Override
     protected List<Resume> getResumeList() {
-        return new ArrayList<Resume>(storage.values());
+        return new ArrayList<>(storage.values());
     }
 
     @Override
     public void clear() {
         storage.clear();
-    }
-
-    @Override
-    public List<Resume> getAllSorted() {
-        return new ArrayList<Resume>(storage.values());
     }
 
     @Override

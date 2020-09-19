@@ -61,8 +61,8 @@ public class Resume implements Comparable<Resume> {
     @Override
     public int compareTo(Resume o) {
         return Comparator
-                .comparing(Resume::getFullName)
-                .thenComparing(Resume::getUuid)
+                .comparing(Resume::getUuid)
+                .thenComparing(Resume::getFullName)
                 .compare(this, o);
     }
 }
