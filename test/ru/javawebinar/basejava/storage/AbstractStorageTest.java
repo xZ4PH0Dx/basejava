@@ -7,6 +7,7 @@ import ru.javawebinar.basejava.exception.ExistStorageException;
 import ru.javawebinar.basejava.exception.NotExistStorageException;
 import ru.javawebinar.basejava.model.Resume;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractStorageTest {
@@ -18,7 +19,7 @@ public abstract class AbstractStorageTest {
     private static final Resume RESUME_2;
     private static final Resume RESUME_3;
     private static final Resume RESUME_4;
-    private static Resume[] expectedResumes;
+    private static List<Resume> expectedResumes = new ArrayList<>();
     Storage storage;
 
     static {
@@ -26,10 +27,9 @@ public abstract class AbstractStorageTest {
         RESUME_2 = new Resume(UUID_2, "Mary");
         RESUME_3 = new Resume(UUID_3, "Ann");
         RESUME_4 = new Resume(UUID_4, "Goblin");
-        expectedResumes = new Resume[3];
-        expectedResumes[0] = RESUME_1;
-        expectedResumes[1] = RESUME_2;
-        expectedResumes[2] = RESUME_3;
+        expectedResumes.add(RESUME_1);
+        expectedResumes.add(RESUME_2);
+        expectedResumes.add(RESUME_3);
     }
 
     public AbstractStorageTest(Storage storage) {
@@ -42,6 +42,7 @@ public abstract class AbstractStorageTest {
         storage.save(RESUME_1);
         storage.save(RESUME_2);
         storage.save(RESUME_3);
+
     }
 
     @Test
@@ -69,11 +70,9 @@ public abstract class AbstractStorageTest {
 
     @Test
     public void getAllSorted() throws Exception {
-        List<Resume> actualResumeList = storage.getAllSorted();
-        Resume[] actualResumes = new Resume[actualResumeList.size()];
-        actualResumes = actualResumeList.toArray(actualResumes);
-        Assert.assertEquals(3, actualResumes.length);
-        Assert.assertArrayEquals(actualResumes, expectedResumes);
+        List<Resume> actualResumes = storage.getAllSorted();
+        Assert.assertEquals(3, actualResumes.size());
+        Assert.assertEquals(actualResumes, expectedResumes);
     }
 
     @Test
