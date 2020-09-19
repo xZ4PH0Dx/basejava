@@ -2,10 +2,7 @@ package ru.javawebinar.basejava.storage;
 
 import ru.javawebinar.basejava.model.Resume;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class MapUuidStorage extends AbstractStorage {
     private final Map<String, Resume> storage = new LinkedHashMap<>();
@@ -13,6 +10,11 @@ public class MapUuidStorage extends AbstractStorage {
     @Override
     protected boolean isExist(Object key) {
         return key != null;
+    }
+
+    @Override
+    protected List<Resume> getResumeList() {
+        return Collections.emptyList();
     }
 
     @Override

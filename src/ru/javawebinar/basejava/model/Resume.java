@@ -1,12 +1,13 @@
 package ru.javawebinar.basejava.model;
 
+import java.util.Comparator;
 import java.util.Objects;
 import java.util.UUID;
 
 /**
  * ru.javawebinar.basejava.model.Resume class
  */
-public class Resume {
+public class Resume implements Comparable<Resume> {
 
     // Unique identifier
     private String uuid;
@@ -39,6 +40,11 @@ public class Resume {
     }
 
     @Override
+    public String toString() {
+        return uuid;
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -49,12 +55,14 @@ public class Resume {
 
     @Override
     public int hashCode() {
-        return uuid.hashCode();
+        return Objects.hash(uuid, fullName);
     }
 
     @Override
-    public String toString() {
-        return uuid;
+    public int compareTo(Resume o) {
+        return Comparator
+                .comparing(Resume::getFullName)
+                .thenComparing(Resume::getUuid)
+                .compare(this, o);
     }
-
 }
