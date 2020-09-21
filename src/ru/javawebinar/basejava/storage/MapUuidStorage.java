@@ -7,11 +7,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MapUuidStorage extends AbstractStorage {
+public class MapUuidStorage extends AbstractStorage<Resume> {
     private final Map<String, Resume> storage = new LinkedHashMap<>();
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean isExist(Resume key) {
         return key != null;
     }
 
@@ -31,28 +31,28 @@ public class MapUuidStorage extends AbstractStorage {
     }
 
     @Override
-    protected void doUpdate(Resume resume, Object key) {
-        storage.put((String) key, resume);
-    }
-
-    @Override
-    protected void doSave(Resume resume, Object key) {
+    protected void doUpdate(Resume resume, Resume key) {
         storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected void doDelete(Object key) {
-        storage.remove(key);
+    protected void doSave(Resume resume, Resume key) {
+        storage.put(resume.getUuid(), resume);
     }
 
     @Override
-    protected Resume doGet(Object key) {
-        return storage.get(key);
+    protected void doDelete(Resume key) {
+        storage.remove(key.getUuid());
     }
 
     @Override
-    protected Object getKey(String uuid) {
+    protected Resume doGet(Resume key) {
+        return storage.get(key.getUuid());
+    }
+
+    @Override
+    protected Resume getKey(String uuid) {
         Resume resume = storage.get(uuid);
-        return (resume != null) ? uuid : null;
+        return (resume != null) ? resume : null;
     }
 }

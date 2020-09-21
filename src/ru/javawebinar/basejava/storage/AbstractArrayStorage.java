@@ -9,13 +9,13 @@ import java.util.List;
 /**
  * Array based storage for Resumes
  */
-public abstract class AbstractArrayStorage extends AbstractStorage {
+public abstract class AbstractArrayStorage extends AbstractStorage<Integer> {
     public static final int STORAGE_LIMIT = 10000;
     protected Resume[] storage = new Resume[STORAGE_LIMIT];
     protected int size = 0;
 
     @Override
-    protected boolean isExist(Object key) {
+    protected boolean isExist(Integer key) {
         return (int) key >= 0;
     }
 
@@ -29,14 +29,14 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    protected Resume doGet(Object key) {
+    protected Resume doGet(Integer key) {
         return storage[(int) key];
     }
 
     @Override
-    protected void doSave(Resume resume, Object key) {
+    protected void doSave(Resume resume, Integer key) {
         if (size < STORAGE_LIMIT) {
-            insertElement(resume, (int) key);
+            insertElement(resume, key);
             size++;
         } else {
             throw new StorageException("Storage overflow", null);
@@ -44,13 +44,13 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
     }
 
     @Override
-    public void doUpdate(Resume resume, Object key) {
-        storage[(int) key] = resume;
+    public void doUpdate(Resume resume, Integer key) {
+        storage[key] = resume;
     }
 
     @Override
-    protected void doDelete(Object key) {
-        fillDeletedElement((int) key);
+    protected void doDelete(Integer key) {
+        fillDeletedElement(key);
         storage[size - 1] = null;
         size--;
     }
@@ -66,7 +66,7 @@ public abstract class AbstractArrayStorage extends AbstractStorage {
         size = 0;
     }
 
-    protected abstract Object getKey(String uuid);
+    protected abstract Integer getKey(String uuid);
 
     protected abstract void insertElement(Resume resume, int index);
 
